@@ -1,14 +1,11 @@
 package com.spc.access.role;
 
 import com.google.gson.Gson;
+import com.spc.exception.UserRolesNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import src.exception.UserNotFoundException;
-import src.exception.UserroleNotFoundException;
-import src.model.dtos.UserrolesDTO;
-import src.model.entities.UserRoles;
-import src.repository.UserRolesRepository;
+
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -25,7 +22,7 @@ import java.util.List;
 public class UserRolesServiceImpl implements UserRolesService {
 
     @Resource
-    UserRolesRepository userrolesRepository;
+    UserRolesReposiotry userrolesRepository;
 
     @Qualifier("userroles")
     @PersistenceContext
@@ -51,21 +48,44 @@ public class UserRolesServiceImpl implements UserRolesService {
      * @return
      */
     @Override
-    public UserRolesDTO create(UserRolesDTO newUserDTO) {
+    public UserRoleResponseDTO create(UserRolesDTO newUserDTO) throws Exception{
+        System.out.println("creating the user role now");
+        UserRoleResponseDTO respDto = new UserRoleResponseDTO();
+        try {
+            System.out.println("newuserDTO =>" + newUserDTO.getIdUserRoles());
+            System.out.println("newuserDTO =>" + newUserDTO.getUserType());
 
-        log.debug("newuserDTO =>"+newUserDTO.toString());
+            Gson gson = new Gson();
+            System.out.println("create entity now");
+            UserRoles createdUser=new UserRoles();
+            createdUser.setIdUserRoles(newUserDTO.getIdUserRoles());
+            createdUser.setUserType(newUserDTO.getUserType());
+            System.out.println("created entity now");
+            createdUser = userrolesRepository.save(createdUser);
+
+            UserRolesDTO dto = convertToDTO(createdUser);
 
 
-
-        Gson gson = new Gson();
-        UserRoles createdUser = gson.fromJson(newUserDTO.toString(), UserRoles.class);
-
-        createdUser = userrolesRepository.save(createdUser);
-        return convertToDTO(createdUser);
+            if (createdUser == null) {
+                respDto.setUserDto(dto);
+                respDto.setResponseCode("401");
+                respDto.setResponseMessage("Role couldnot be created");
+            } else {
+                respDto.setUserDto(dto);
+                respDto.setResponseCode("201");
+                respDto.setResponseMessage("Role created");
+            }
+        }catch (Exception e){
+            respDto.setUserDto(null);
+            respDto.setResponseCode("500");
+            respDto.setResponseMessage("Internal Server error");
+            throw e;
+        }
+        return respDto;
     }
 
     @Override
-    public void setUserRolesRepository(UserRolesRepository useRepository) {
+    public void setUserRolesRepository(UserRolesReposiotry useRepository) {
         this.userrolesRepository = useRepository;
     }
 
@@ -93,12 +113,12 @@ public class UserRolesServiceImpl implements UserRolesService {
      *
      * @param id
      * @return
-     * @throws src.exception.UserNotFoundException
+     * @throws com.spc.exception.UserRolesNotFoundException
      */
-    public UserRolesDTO findById(Integer id) throws UserroleNotFoundException {
+    public UserRolesDTO findById(Integer id) throws UserRolesNotFoundException {
         UserRoles entity = userrolesRepository.findOne(id);
         if (entity == null) {
-            throw new UserroleNotFoundException("User role not found");
+            throw new UserRolesNotFoundException("User role not found");
         }
         return convertToDTO(entity);
     }
@@ -109,20 +129,7 @@ public class UserRolesServiceImpl implements UserRolesService {
         return null;
     }
 
-    /**
-     * Find a specific entry using the pk value
-     *
-     * @param id
-     * @return
-     * @throws UserNotFoundException
-     */
-    public UserRoles findOutgoingMessageById(Integer id) throws UserroleNotFoundException {
-        UserRoles entity = userrolesRepository.findOne(id);
-        if (entity == null) {
-            throw new UserroleNotFoundException("User not found");
-        }
-        return entity;
-    }
+
 
     /**
      * Save the updated entity

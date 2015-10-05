@@ -1,10 +1,11 @@
 package com.spc.access;
 
 import com.google.gson.Gson;
+import com.spc.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import src.exception.UserNotFoundException;
+
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id
      * @return
-     * @throws UserNotFoundException
+     * @throws com.spc.exception.UserNotFoundException
      */
     public UserDTO findById(Long id) throws UserNotFoundException {
         User entity = userRepository.findOne(id);

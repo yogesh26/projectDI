@@ -49,7 +49,7 @@ public class User implements Serializable {
     @JoinColumn(name = "UserDetails_idUserDetails", referencedColumnName = "idUserDetails")
     @ManyToOne(optional = false)
     private Userdetails userDetailsidUserDetails;
-    @JoinColumn(name = "UserRoles_idUserRoles", referencedColumnName = "idUserRoles")
+    @JoinColumn(name = "UserRoles_id_user_roles", referencedColumnName = "id_user_roles")
     @ManyToOne(optional = false)
     private UserRoles userRolesidUserRoles;
 

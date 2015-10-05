@@ -252,8 +252,8 @@ DROP TABLE IF EXISTS `userroles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `userroles` (
-  `idUserRoles` int(11) NOT NULL AUTO_INCREMENT,
-  `UserType` enum('ADMIN','DEVELOPER','USER') NOT NULL,
+  `id_user_roles` int(11) NOT NULL AUTO_INCREMENT,
+  `user_type` enum('ADMIN','DEVELOPER','USER') NOT NULL,
   PRIMARY KEY (`idUserRoles`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

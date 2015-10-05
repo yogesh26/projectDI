@@ -1,4 +1,4 @@
-package entrypoint; /**
+package com.spc; /**
  * Created by YogeshK on 2015-08-20.
  */
 

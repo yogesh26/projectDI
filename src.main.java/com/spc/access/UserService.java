@@ -1,6 +1,7 @@
 package com.spc.access;
 
-import src.exception.UserNotFoundException;
+import com.spc.exception.UserNotFoundException;
+
 
 import java.util.List;
 
