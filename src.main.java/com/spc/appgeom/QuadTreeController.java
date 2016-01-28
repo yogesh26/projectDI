@@ -5,6 +5,7 @@ import com.spc.utils.CommonResponseHeader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
@@ -77,11 +78,13 @@ public class QuadTreeController {
         tree.insert(ln);
         return tree;
     }
+
     @RequestMapping("/Ver")
-    @ResponseBody
-    String version() {
+    public ResponseEntity<String> version() {
         System.out.println("Ver1.0");
-        return "1.0";
+        HttpHeaders headers = CommonResponseHeader.getNoCacheHeader();
+        headers.set("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>("ver1.0", headers, HttpStatus.OK);
 
     }
 
@@ -91,14 +94,12 @@ public class QuadTreeController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    @Transactional(readOnly = true)
-    public List<SPCBaseObjectDTO> getAllObjects() {
+    public  ResponseEntity<List<SPCBaseObjectDTO>> getAllObjects() {
 
         SPCQuadTree tree = this.getTreeInit();
 
         HttpHeaders headers = CommonResponseHeader.getNoCacheHeader();
-
+        headers.set("Access-Control-Allow-Origin","*");
         SPCRectDTO rect=new SPCRectDTO();
         SPCPoint2DDTO start=new SPCPoint2DDTO();
         start.setFX(0f);
@@ -110,7 +111,9 @@ public class QuadTreeController {
         rect.setOrigin(start);
         List<SPCBaseObjectDTO> resp=new ArrayList<SPCBaseObjectDTO>();
         resp.add(rect);
-        return resp;
+
+        return new ResponseEntity<>(resp, headers, HttpStatus.OK);
+
     }
 
 }

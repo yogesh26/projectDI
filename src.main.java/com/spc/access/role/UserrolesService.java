@@ -13,8 +13,6 @@ public interface UserRolesService {
 
     public UserRoleResponseDTO create(UserRolesDTO newUserroleEntity)throws Exception;
 
-    public List<UserRolesDTO> findAll();
-
     public UserRolesDTO findById(Integer id) throws UserRolesNotFoundException;
 
 

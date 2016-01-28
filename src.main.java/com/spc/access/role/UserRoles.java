@@ -22,51 +22,47 @@ import java.util.List;
 @Entity
 @Table(name = "userroles")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UserRoles.findAll", query = "SELECT u FROM UserRoles u"),
-    @NamedQuery(name = "UserRoles.findByIdUserRoles", query = "SELECT u FROM UserRoles u WHERE u.id_user_roles = :id_user_roles"),
-    @NamedQuery(name = "UserRoles.findByUserType", query = "SELECT u FROM UserRoles u WHERE u.user_type = :user_type")})
+//@NamedQueries({
+//    @NamedQuery(name = "UserRoles.findAll", query = "SELECT u FROM UserRoles u"),
+//    @NamedQuery(name = "UserRoles.findByIdUserRoles", query = "SELECT u FROM UserRoles u WHERE u.id_user_roles = :id_user_roles"),
+//    @NamedQuery(name = "UserRoles.findByUserType", query = "SELECT u FROM UserRoles u WHERE u.user_type = :user_type")})
 public class UserRoles implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_user_roles")
-    private Integer id_user_roles;
+    private Integer idUserRoles;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 9)
     @Column(name = "user_type")
-    private String user_type;
+    private String userType;
     @OneToMany(mappedBy = "idUser" , fetch = FetchType.LAZY)
     private List<User> userList;
 
     public UserRoles() {
     }
 
-    public UserRoles(Integer idUserRoles) {
-        this.id_user_roles = idUserRoles;
-    }
-
-    public UserRoles(Integer idUserRoles, String userType) {
-        this.id_user_roles = idUserRoles;
-        this.user_type = userType;
+    public UserRoles(String userType) {
+        this.idUserRoles=0;
+        this.userType = userType;
     }
 
     public Integer getIdUserRoles() {
-        return id_user_roles;
+        return idUserRoles;
     }
 
     public void setIdUserRoles(Integer idUserRoles) {
-        this.id_user_roles = idUserRoles;
+        this.idUserRoles = idUserRoles;
     }
 
     public String getUserType() {
-        return user_type;
+        return userType;
     }
 
     public void setUserType(String userType) {
-        this.user_type = userType;
+        this.userType = userType;
     }
 
     @XmlTransient
@@ -81,7 +77,7 @@ public class UserRoles implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id_user_roles != null ? id_user_roles.hashCode() : 0);
+        hash += (idUserRoles != null ? idUserRoles.hashCode() : 0);
         return hash;
     }
 
@@ -92,7 +88,7 @@ public class UserRoles implements Serializable {
             return false;
         }
         UserRoles other = (UserRoles) object;
-        if ((this.id_user_roles == null && other.id_user_roles != null) || (this.id_user_roles != null && !this.id_user_roles.equals(other.id_user_roles))) {
+        if ((this.idUserRoles == null && other.idUserRoles != null) || (this.idUserRoles != null && !this.idUserRoles.equals(other.idUserRoles))) {
             return false;
         }
         return true;
@@ -100,7 +96,7 @@ public class UserRoles implements Serializable {
 
     @Override
     public String toString() {
-        return "src.model.entities.Userroles[ idUserRoles=" + id_user_roles + " ]";
+        return "src.model.entities.Userroles[ idUserRoles=" + idUserRoles + " ]";
     }
     
 }

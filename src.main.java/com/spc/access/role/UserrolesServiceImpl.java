@@ -90,23 +90,6 @@ public class UserRolesServiceImpl implements UserRolesService {
     }
 
 
-    /**
-     * Retrieve a list of all the messages in DTO format
-     *
-     * @return
-     */
-    public List<UserRolesDTO> findAll() {
-        List<UserRoles> entityList = userrolesRepository.findAll();
-        List<UserRolesDTO> dtoList = new ArrayList<>();
-
-        for (UserRoles entity : entityList) {
-            UserRolesDTO dto = convertToDTO(entity);
-            dtoList.add(dto);
-        }
-
-        return dtoList;
-    }
-
 
     /**
      * Find a specific entity using pk value
