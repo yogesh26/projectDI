@@ -4,6 +4,9 @@ package spc;
  */
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import spc.access.role.UserRoles;
 import spc.access.role.UserRolesReposiotry;
 
@@ -29,11 +32,14 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @PropertySource("classpath:/application.properties")
 @SpringBootApplication
-public class Application {
+public class Application implements EmbeddedServletContainerCustomizer {
 
 
     //@Autowired
     private static final Logger log = LoggerFactory.getLogger(Application.class);
+    @Value("${classpath:webapp/jsp  }")
+
+    private String documentRoot;
 //    @Override
 //    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 //        return application.sources(Application.class);
@@ -95,5 +101,10 @@ public class Application {
 
 
         };
+    }
+
+    @Override
+    public void customize(ConfigurableEmbeddedServletContainer configurableEmbeddedServletContainer) {
+
     }
 }
